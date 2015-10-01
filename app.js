@@ -58,7 +58,7 @@ passport.use(new FacebookStrategy({
 
 app.use(loginMiddleware);
 
-app.listen(3000, function(){
+app.listen(process.env.PORT || 3000, function(){
     console.log("Server is Starting on Port 3000:");
 });
 
