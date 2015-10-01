@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+  include ../includes/head.jade
+  script.
+    UPLOADCARE_LOCALE = "en";
+    UPLOADCARE_TABS = "file url facebook";
+    UPLOADCARE_PUBLIC_KEY = "408347da02c295d99b22";
+  script(src="//ucarecdn.com/widget/2.5.5/uploadcare/uploadcare.full.min.js", charset="utf-8")
+  script.
+    window.onload = function(){
+        var singleWidget = uploadcare.SingleWidget("[role=uploadcare-uploader]")
+        singleWidget.onChange(function(file){
+          if(file){
+            file.done(function(info){
+              document.getElementById("postPic").value = info.cdnUrl;
+            })
+          } 
+        })
+    }     
+body
+  h1.text-info Say Something:
+  form#myForm(action="/posts", method="POST")
+    div.form-group
+      lable(for="postTitle") Post Title:
+      input(id="postTitle", name="post[postTitle]").form-control
+    div.form-group
+      lable(for="postContent") Post Content:
+      textarea(id="postContent", rows="10", name="post[postContent]").form-control
+    br
+    div.form-group
+      lable(for="postPic") Picture:
+      input#postPic(type="hidden", name="post[postPic]")
+      input(type="hidden", role="uploadcare-uploader", data-crop="disabled", data-images-only="true")    
+    div.hidden
+      lable(for="author") Author:
+      input(id="postPic", name="post[author]").form-control    
+    div.form-group
+      label(for="submit")
+      input(type="submit").btn.btn-danger.center-block
+
+  

@@ -1,0 +1,67 @@
+//
+  Post index page should display all of the posts
+  from all users
+
+<!DOCTYPE html>
+html(lang="en")
+head
+  include ../includes/head.jade
+  title=pageTitle
+  script.
+    $(document).ready(function(){
+      var postTitle;
+        $("form").submit(function(event){
+          event.preventDefault();
+          //this is the current index
+          var currentIndex = $(event.target).children()[0].innerText;
+          var $postId = $("div#postId"+currentIndex).text();
+          var $comment = $("textarea#comment"+currentIndex).val();
+          $.get("/database?postId=" + $postId + "&comment=" + $comment).done(function(res){
+              $("div#newComment"+currentIndex).append(res.content + " -- " + res.author + "<br>");
+          }).fail(function(err){
+            console.log("WE FAILED!", err)
+          })
+           $("textarea").val("")
+        });
+    })
+body
+  -if(!currentUserId){
+  include ../includes/nav_with_signup_login  
+  -};
+  -if(currentUserId){
+  include ../includes/nav_with_signout
+  -};
+  table.table.table-striped
+    - each post, index in posts
+      tr
+        td
+          img(src="#{post.postPic}", width="80px", height="80px")
+        td
+          a(id="postTitle"+index, data-toggle="modal", data-target="#currentModal"+index) #{post.postTitle}
+          div.modal.fade.text-center(id="currentModal"+index, tabindex="-1", role="dialog", aria-labelledby="myModalLabel")
+            div.modal-dialog(role="document")
+              div.modal-content
+                div.modal-header
+                  button.close(type="button", data-dismiss="modal", aria-label="Close")
+                    span(aria-hidden="true")&times; 
+                  h3.modal-title #{post.postTitle} 
+                  p - by #{post.author.facebook.displayName || post.author.local.userName}
+                  img(src="#{post.postPic}", width="200px", height="200px")
+                  br
+                  p #{post.postContent}
+                  hr(width="300")
+                  -each comment in post.comments
+                    div.commentSection #{comment.content} -- #{comment.author}
+                  div(id="newComment"+index)
+                  div.commentBlock
+                    form(id="commentModal"+index)
+                      div#modalIndex.hidden #{index}
+                      div(id="postId"+index).hidden #{post._id}
+                      div.form-group
+                        label(for="comment"+index) 
+                        textarea(rows="5", cols="5", id="comment"+index, name="comment"+index, placeholder="what do you think").form-control
+
+                        label(for="submit")
+                        input(type="submit", name="submit", value="comment")
+                      
+        td created by: #{post.author.local.userName || post.author.facebook.displayName}

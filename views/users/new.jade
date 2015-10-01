@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+html(lang="en")
+head
+  include ../includes/head.jade
+  title=pageTitle
+  //- script.
+      //- $(document).ready(function(){
+      //-   //making sure no username confliction from users
+      //-   $("#userNameCheck").keyup(function(){
+      //-     $("#result").empty();
+      //-     $("input[name=submit]").removeClass("disabled");
+      //-     $.get("/database?userName=" + $(this).val(), function(res){
+      //-       if(!res.result){
+      //-         $("#result").append("Oooops, looks like someone has already taken this user name...Try something else!");
+      //-         $("input[name=submit]").addClass("disabled");
+      //-       }
+      //-     });    
+      //-   });
+      //- })
+body
+  h1.text-center.text-success welcome to my galvanize! &nbsp;
+    span.glyphicon.glyphicon-education 
+  br
+  br
+  div.col-md-6.signup
+    form(action="/signup", method="POST").center-block
+      h3.text-info Don't have an Account? Sign Up!
+      div.form-group
+        lable(for="userName") User Name:
+        input(id="userNameCheck", name="user[userName]").form-control
+      div.form-group
+        label(for="password") Password:
+        input(type="password", id="password", name="user[password]").form-control
+      div.form-group
+        label(for="email") Email:
+        input(id="email", name="user[email]").form-control
+      div.form-group
+        label(for="submit")
+        input(type="submit", value="sign up", name="submit").btn.btn-danger.center-block
+      div#result
+  div.col-md-6.signin
+    form(action="/login", method="POST").center-block
+      h3.text-info Already has an Account? Sign In!
+      div.form-group
+        lable(for="userName") User Name:
+        input(id="userName", name="user[userName]").form-control
+      div.form-group
+        label(for="password") Password:
+        input(type="password", id="password", name="user[password]").form-control
+      div.form-group
+        label(for="submit")
+        input(type="submit", value="sign in").btn.btn-danger.center-block
+      br
+      div#facebookDiv
+        a#facebook.btn.btn-social.btn-facebook(href="/auth/facebook/")
+          i.fa.fa-facebook
+          p Sign in with Facebook
+
+
+
+
