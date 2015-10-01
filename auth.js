@@ -2,7 +2,7 @@ var ids = {
   facebook: {
    clientID: process.env.FACEBOOK_APP_ID,
    clientSecret: process.env.FACEBOOK_APP_SECRET,
-   callbackURL: "http://localhost:3000/auth/facebook/callback"
+   callbackURL: "https://my-galvanize-app.herokuapp.com/auth/facebook/callback"
   }
 };
 
