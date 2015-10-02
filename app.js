@@ -164,6 +164,14 @@ app.get("/logout", function (req, res) {
 });
 
 app.get("/database", function(req, res){
+  db.User.find({"local.userName": req.query.userName}, function(err, doc){
+    if(doc.length === 0){
+      res.json("new", {pageTitle: "New Record", result: 1});
+    }else{
+      res.json("new", {pageTitle: "New Record", result: 0});
+    }
+  });
+
   if(req.query.comment !== null){
     var newComment = new db.Comment({content:req.query.comment});
     newComment.save(function(err,comment){
@@ -177,15 +185,8 @@ app.get("/database", function(req, res){
         });    
       });
     });    
-  }else{
-  db.User.find({local: {userName: req.query.userName}}.toLowerCase(), function(err, doc){
-    if(doc.length === 0){
-      res.json("new", {pageTitle: "New Record", result: 1});
-    }else{
-      res.json("new", {pageTitle: "New Record", result: 0});
-    }
-  });    
   }
+
 });
 
 
