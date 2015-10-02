@@ -3,20 +3,20 @@ html(lang="en")
 head
   include ../includes/head.jade
   title=pageTitle
-  script.
-    $(document).ready(function(){
-      //making sure no username confliction from users
-      $("input#userNameCheck").keyup(function(){
-          $("#result").empty();
-          $("input[name=submit]").removeClass("disabled");
-          $.get("/database?userName="+ $(this).val(), function(res){
-              if(!res.result){
-                $("#result").append("Oooops, looks like someone has already taken this user name...Try something else!");
-                $("input[name=submit]").addClass("disabled");
-              }
-          });
-      })
-    });
+  //- script.
+  //-   $(document).ready(function(){
+  //-     //making sure no username confliction from users
+  //-     $("input#userNameCheck").keyup(function(){
+  //-         $("#result").empty();
+  //-         $("input[name=submit]").removeClass("disabled");
+  //-         $.get("/database?userName="+ $(this).val(), function(res){
+  //-             if(!res.result){
+  //-               $("#result").append("Oooops, looks like someone has already taken this user name...Try something else!");
+  //-               $("input[name=submit]").addClass("disabled");
+  //-             }
+  //-         });
+  //-     })
+  //-   });
      
 body
   h1.text-center.text-success welcome to my galvanize! &nbsp;
